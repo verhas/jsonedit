@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="jsonedit.js"></script>
+<script>
+	$(document).ready(
+	function() {
+		$("#myForm").jsonedit({
+			title : "This is the title of the form",
+			callback: myCallBack,
+			id : "666",
+			data : {
+				1 : 2,
+				arrayName: [ 1, 2, 3 , 4 ],
+				3: 4, 5: 6,
+				"a" :{				1 : 2, 3: 4, 5: 6
+}
+			},
+			__dummy__ : null
+		});
+		$("#other").jsonedit();
+	}
+
+	);
+	
+	function myCallBack(data){
+		alert(data);
+	}
+</script>
+<title>Edit the fields</title>
+</head>
+<body>
+<div id="myForm"></div>
+<hr>
+<div id="other"></div>
+</body>
+</html>
