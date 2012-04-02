@@ -6,35 +6,165 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="jsonedit.js"></script>
 <script>
-	$(document).ready(
-	function() {
+	$(document).ready(function() {
 		$("#myForm").jsonedit({
 			title : "This is the title of the form",
-			callback: myCallBack,
+			callback : myCallBack,
 			id : "666",
 			data : {
 				1 : 2,
-				arrayName: [ 1, 2, 3 , 4 ],
-				3: 4, 5: 6,
-				"a" :{				1 : 2, 3: 4, 5: 6
-}
+				arrayName : [ 1, 2, 3, 4 ],
+				3 : 4,
+				5 : 6,
+				"a" : {
+					1 : 2,
+					3 : 4,
+					5 : 6
+				}
 			},
 			__dummy__ : null
 		});
-		$("#other").jsonedit();
+		$("#empty-form").jsonedit();
 	}
 
 	);
-	
-	function myCallBack(data){
-		alert(data);
+
+	function myCallBack(data) {
+		alert("myCallBack was called");
 	}
 </script>
-<title>Edit the fields</title>
+<title>JsonEdit: edit data flexible</title>
+<style>
+p,h1,h2,li {
+	font-family: Arial;
+}
+
+p,pre,tt {
+	font-size: 12pt;
+}
+</style>
 </head>
 <body>
+<h1>JsonEdit: edit data in flexible way</h1>
+<h2>Introduction</h2>
+<p>JsonEdit is a data editor that allows the client to edit a
+record. The form can contain arbitrary number of fields each having a
+name and a value. The value can be either a string (simple text input)
+or can be a record itself or an array of values. The depth of the
+sub-records and sub-arrays is not limited by the code.</p>
+<p>The client can edit the names, values, add new fields, rearrange
+the fields. To ease the editing sub records and sub arrays at any level
+can be collapsed and opened again. If the rearrangement of the fields or
+the deletion of a field (which can be a huge sub record or sub array)
+was by accident then there is undo function. The level of undo actions
+are not limited. If the icons clutter the form too much they can be
+hidden and made visible at a simple click or a show-hide icon.</p>
+<p>The code is a jQuery plugin thus you can invoke it with the well
+known <tt>$("selector").jsonedit({ parameters })</tt> format.</p>
+<p>When the client finishes editing and pushes the submit icon a
+JavaScript callback function is invoked</p>
+<h2>Parameters</h2>
+<p>The easiest way to invoke the plugin in the form <tt>$(selector).jsonedit()</tt>
+the usual jQuery way. This will insert into all elements maching the <tt>selector</tt>
+an empty json edit form. This has the following effect:
+<p>
+<div id="empty-form"></div>
+<p>You can now click on the <img src="icon/show_hide.png" border="0" />
+icon (not here but above on the form) to display the icons and then add
+<img src="icon/add.png" /> new value, add <img
+	src="icon/add_record.png" /> a new sub map or add <img
+	src="icon/add_array.png" /> a sub array.</p>
+<p>This way however you can not do many things since when the page
+is closed the edited data is lost. You need a form to fetch some data
+from the server, let the user edit the data and then send the data back
+to the server. To do that jsonedit lets you initialize the form with
+arbitrary JavaScript map and when the user has finished the editing the
+data is passed to a callback function you can specify as parameter.</p>
+<p>To invoke jsonedit with parameters you have to pass a map to it
+as argument, for example <tt>$(selector).jsonedit({ title : "this
+is the title", callback : myCallbackFunction })</tt>. You can specify a few
+parameters</p>
+<ul>
+	<li><tt>title</tt> is a string and is the title of the form,
+	displayed right at the top of the form</li>
+	<li><tt>id</tt> is the ID of the form to insert. If this is
+	missing the inserted <tt>form</tt> will not have <tt>id</tt> tag.
+	<li><tt>data</tt> is the initial data for the form.
+	<li><tt>callback</tt> a callback function. This function is called
+	when the user presses the submit button. The argument to the function
+	will contain the record collected.
+	<li><tt>css</tt> should be missing, <tt>true</tt> or <tt>false</tt>.
+	The default value is <tt>false</tt>. If the value is <tt>true</tt> it
+	means that there is a style sheet that defines the styles for the
+	classes used in the form HTML and the code need not inject the built in
+	styles.</li>
+</ul>
+<p>An example call you can see after the code:</p>
+<pre>
+		$("#myForm").jsonedit({
+			title : "This is the title of the form",
+			callback : myCallBack,
+			id : "666",
+			data : {
+				1 : 2,
+				arrayName : [ 1, 2, 3, 4 ],
+				3 : 4,
+				5 : 6,
+				"a" : {
+					1 : 2,
+					3 : 4,
+					5 : 6
+				}
+			},
+			__dummy__ : null
+		});
+function myCallBack(data) {
+		alert("myCallBack was called");
+	}
+</pre>
 <div id="myForm"></div>
-<hr>
-<div id="other"></div>
+<h2>Styles</h2>
+<p>The css classes that are used in the code to format the form all
+start with the string <tt>ui-jsonedit-</tt>. The actual classes are:</p>
+<ul>
+	<li><tt>ui-jsonedit-record</tt></li>
+	<li><tt>ui-jsonedit-array</tt></li>
+	<li><tt>ui-jsonedit-field</tt></li>
+	<li><tt>ui-jsonedit-input-value</tt></li>
+	<li><tt>ui-jsonedit-input-name</tt></li>
+	<li><tt>ui-jsonedit-title</tt></li>
+	<li><tt>ui-jsonedit-icon</tt></li>
+	<li><tt>ui-jsonedit-icon-toggle</tt></li>
+	<li><tt>ui-jsonedit-icons-toggle</tt></li>
+	<li><tt>ui-jsonedit-icon-decorator</tt></li>
+	<li><tt>ui-jsonedit-icon-delete</tt></li>
+</ul>
+<p>The following classes are also used in the code, however there is
+no style attached to them:</p>
+<ul>
+	<li><tt>ui-jsonedit-icon-undo</tt></li>
+	<li><tt>ui-jsonedit-list</tt></li>
+	<li><tt>ui-jsonedit-icon-add</tt></li>
+	<li><tt>ui-jsonedit-icon-add-array</tt></li>
+	<li><tt>ui-jsonedit-icon-add-r2r</tt></li>
+	<li><tt>ui-jsonedit-icon-add-a2a</tt></li>
+	<li><tt>ui-jsonedit-icon-add-r2a</tt></li>
+	<li><tt>ui-jsonedit-icon-add-a2r</tt></li>
+	<li><tt>ui-jsonedit-icon-delete</tt></li>
+	<li><tt>ui-jsonedit-icon-up</tt></li>
+	<li><tt>ui-jsonedit-icon-down</tt></li>
+	<li><tt>ui-jsonedit-icon-submit</tt></li>
+	<li><tt>ui-jsonedit-icon-undo</tt></li>
+	<li><tt>ui-jsonedit-node</tt></li>
+</ul>
+<h2>Chaining</h2>
+<p>You can chain the call the usual way in jQuery. Thus you can write, for example:
+</p>
+<pre>
+		$("#myForm").jsonedit( {...} ).css({"background-color": "black"});
+</pre>
+<p>
+to set the background color of the form to black.
+</p>
 </body>
 </html>

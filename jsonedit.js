@@ -1,7 +1,7 @@
 //todo: function to replace the content of an already existing form with the values of a JS variable
 //todo: define the maximum level allowed to be added to the form
 //todo: define that the form is fixed, no field, subfields whatever can be deleted and the names can not be changed
-//todo: rename the class names to ui-jsonedit-XXXX
+//todo: possibility to edit the JSON in plain text and switch back and forth field editing and text editing
 (function($) {
 
 	$.fn.jsonedit = function(options) {
